@@ -1,9 +1,26 @@
-document.getElementById('minimizeButton').addEventListener('click', () => {
-  window.electronAPI.minimizeWindow();
+let isMaximized = false;
+
+document.getElementById('maximizeButton').addEventListener('click', async () => {
+  const container = document.querySelector('.container');
+  const mpld3Baseaxes = document.querySelector('.mpld3-baseaxes');
+  
+  const isCurrentlyMaximized = await window.electronAPI.isWindowMaximized();
+
+  if (isCurrentlyMaximized) {
+    window.electronAPI.unmaximizeWindow();
+    container.classList.remove('maximized');
+    mpld3Baseaxes.classList.remove('maximized');
+  } else {
+    window.electronAPI.maximizeWindow();
+    container.classList.add('maximized');
+    mpld3Baseaxes.classList.add('maximized');
+  }
+
+  isMaximized = !isMaximized;
 });
 
-document.getElementById('maximizeButton').addEventListener('click', () => {
-  window.electronAPI.maximizeWindow();
+document.getElementById('minimizeButton').addEventListener('click', () => {
+  window.electronAPI.minimizeWindow();
 });
 
 document.getElementById('closeButton').addEventListener('click', () => {

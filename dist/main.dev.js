@@ -1,8 +1,15 @@
-const { app, BrowserWindow, ipcMain } = require('electron');
-const path = require('path');
+"use strict";
+
+var _require = require('electron'),
+    app = _require.app,
+    BrowserWindow = _require.BrowserWindow,
+    ipcMain = _require.ipcMain;
+
+var path = require('path');
+
 require('./controllers/pythonController');
 
-let mainWindow;
+var mainWindow;
 
 function createWindow() {
   mainWindow = new BrowserWindow({
@@ -17,43 +24,33 @@ function createWindow() {
       nodeIntegration: false
     }
   });
-
-  mainWindow.loadFile('views/index.html');
-
-  // Open the DevTools.
+  mainWindow.loadFile('views/index.html'); // Open the DevTools.
   // mainWindow.webContents.openDevTools();
 }
 
 app.whenReady().then(createWindow);
-
-app.on('window-all-closed', () => {
+app.on('window-all-closed', function () {
   if (process.platform !== 'darwin') {
     app.quit();
   }
 });
-
-app.on('activate', () => {
+app.on('activate', function () {
   if (BrowserWindow.getAllWindows().length === 0) {
     createWindow();
   }
 });
-
-ipcMain.handle('isWindowMaximized', () => {
+ipcMain.handle('isWindowMaximized', function () {
   return mainWindow.isMaximized();
 });
-
-ipcMain.handle('maximizeWindow', () => {
+ipcMain.handle('maximizeWindow', function () {
   mainWindow.maximize();
 });
-
-ipcMain.handle('unmaximizeWindow', () => {
+ipcMain.handle('unmaximizeWindow', function () {
   mainWindow.unmaximize();
 });
-
-ipcMain.handle('minimizeWindow', () => {
+ipcMain.handle('minimizeWindow', function () {
   mainWindow.minimize();
 });
-
-ipcMain.handle('closeWindow', () => {
+ipcMain.handle('closeWindow', function () {
   mainWindow.close();
 });

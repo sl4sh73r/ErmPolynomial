@@ -5,7 +5,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getPolynomial: () => ipcRenderer.invoke('get-polynomial'),
   getEquations: () => ipcRenderer.invoke('get-equations'),
   getPlot: () => ipcRenderer.invoke('get-plot'),
-  minimizeWindow: () => ipcRenderer.send('minimize-window'),
-  maximizeWindow: () => ipcRenderer.send('maximize-window'),
-  closeWindow: () => ipcRenderer.send('close-window')
+  isWindowMaximized: () => ipcRenderer.invoke('isWindowMaximized'),
+  maximizeWindow: () => ipcRenderer.invoke('maximizeWindow'),
+  unmaximizeWindow: () => ipcRenderer.invoke('unmaximizeWindow'),
+  minimizeWindow: () => ipcRenderer.invoke('minimizeWindow'),
+  closeWindow: () => ipcRenderer.invoke('closeWindow')
 });
