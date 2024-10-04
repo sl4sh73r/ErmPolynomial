@@ -5,8 +5,8 @@ function runPythonScript(command, args = []) {
   console.log('Running Python script with:', command, 'and args:', args); // Отладочное сообщение
   return new Promise((resolve, reject) => {
     const scriptPath = path.join(__dirname, '../python/calculations.py');
-    console.log('Python script path:', scriptPath); // Отладочное сообщение
-    const pythonProcess = spawn('python3', [scriptPath, command, ...args]);
+    const pythonPath = path.join(__dirname, '../.venv/Scripts/python.exe'); // Укажите путь к интерпретатору Python
+    const pythonProcess = spawn(pythonPath, [scriptPath, command, ...args]);
 
     let output = '';
 

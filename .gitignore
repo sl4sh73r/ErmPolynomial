@@ -1,22 +1,27 @@
-# Node modules
+# Node.js
 node_modules/
+npm-debug.log
+yarn-error.log
+
+# Visual Studio Code
+.vscode/
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.env
+.venv/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
+
+# Excel files
+uploads/*.xlsx
 
 # Logs
 logs/
 *.log
-npm-debug.log*
-
-# Dependency directories
-jspm_packages/
-
-# Optional npm cache directory
-.npm
-
-# Optional REPL history
-.node_repl_history
-
-# Mac system files
-.DS_Store
-
-# VS Code settings
-.vscode/
