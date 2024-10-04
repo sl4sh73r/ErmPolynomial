@@ -1,0 +1,292 @@
+/* Стилизация скроллбара */
+::-webkit-scrollbar {
+  width: 12px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  border: 3px solid rgba(0, 0, 0, 0.1);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Основные стили */
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: rgba(18, 18, 18, 0.8); /* Полупрозрачный фон */
+  color: #e0e0e0;
+  margin: 0;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100vh;
+  overflow: hidden; /* Убираем артефакты при прокрутке */
+}
+
+.title-bar {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  background-color: rgba(0, 0, 0, 0.8);
+  padding: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.window-control {
+  background: none;
+  border: none;
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.window-control img {
+  width: 20px;
+  height: 20px;
+}
+
+.container {
+  width: 80%;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон контейнера */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  overflow-y: auto; /* Добавляем вертикальную прокрутку */
+  max-height: 80vh; /* Ограничиваем высоту контейнера */
+}
+
+h1, h2 {
+  color: #ffffff;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+button {
+  margin-top: 10px;
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #1f1f1f;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+button:hover {
+  background-color: #333333;
+}
+
+input[type="file"] {
+  margin-top: 10px;
+  padding: 10px;
+  color: #ffffff;
+  background-color: #1f1f1f;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+}
+
+pre {
+  background-color: rgba(255, 255, 255, 0.4); /* Менее прозрачный фон для лучшей видимости текста */
+  padding: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 5px;
+  margin-top: 10px;
+  max-width: 100%;
+  overflow-x: auto;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.output-box {
+  background-color: rgba(255, 255, 255, 0.4); /* Менее прозрачный фон для лучшей видимости текста */
+  padding: 20px;
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  margin-top: 10px;
+  max-width: 100%;
+  max-height: 300px;
+  overflow-y: auto; /* Добавляем вертикальную прокрутку */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  position: relative;
+}
+
+.neon-border {
+  position: relative;
+  padding: 20px;
+  margin-top: 10px;
+  border-radius: 10px;
+  background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон */
+  overflow: hidden; /* Скрываем текст за пределами рамки */
+  border: 0.2rem solid #fff;
+  box-shadow: 0 0 .05rem #fff,
+              0 0 .05rem #fff,
+              0 0 0.5rem #fff,
+              0 0 0.2rem #fff,
+              0 0 0.7rem #fff,
+              inset 0 0 0.35rem #fff;
+  display: none; /* Скрываем элемент по умолчанию */
+}
+
+
+@keyframes neon-border {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+img {
+  margin-top: 10px;
+  max-width: 100%;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-buttons {
+  display: flex;
+  justify-content: space-between;
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px; /* Ширина контейнера для кнопок */
+  pointer-events: none; /* Чтобы кнопки не перекрывали содержимое */
+  z-index: 10; /* Поверх содержимого */
+}
+
+.scroll-button {
+  background: #1f1f1f;
+  border: none;
+  color: #ffffff;
+  font-size: 16px;
+  cursor: pointer;
+  pointer-events: all; /* Включаем возможность клика */
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.scroll-button:hover {
+  opacity: 1;
+}
+
+.zoom-slider {
+  width: 90%;
+  margin: 10px auto;
+  display: block;
+  -webkit-appearance: none;
+  appearance: none;
+  height: 5px;
+  background: #1f1f1f;
+  outline: none;
+  opacity: 0.7;
+  transition: opacity 0.2s;
+  border-radius: 5px;
+  position: absolute;
+  top: 50px; /* Отступ от верхней части output-box */
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10; /* Поверх содержимого */
+}
+
+.zoom-slider:hover {
+  opacity: 1;
+}
+
+.zoom-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 15px;
+  height: 15px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.zoom-slider::-moz-range-thumb {
+  width: 15px;
+  height: 15px;
+  background: #ffffff;
+  cursor: pointer;
+  border-radius: 50%;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}
+
+.output-box {
+  position: relative;
+  padding-top: 80px; /* Отступ для слайдера и кнопок */
+}
+
+
+/* Стили для графика */
+#plotOutputContainer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: auto;
+    margin: 20px 0;
+    position: relative; /* Добавляем относительное позиционирование */
+}
+
+#plotOutput {
+    width: 100%;
+    max-width: 1000px;
+    height: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    background-color: transparent;
+}
+
+/* Переопределение стилей для элементов графика */
+.mpld3-figure {
+    width: 100% !important;
+    height: auto !important;
+}
+
+.mpld3-axes {
+    background-color: transparent !important;
+}
+
+.mpld3-axesbg {
+    fill: transparent !important;
+}
+
+.mpld3-xaxis, .mpld3-yaxis {
+    font-size: 12px !important;
+    color: #ccc !important;
+}
+
+.mpld3-grid {
+    stroke: rgba(255, 255, 255, 0.8) !important; /* Сделать сетку более видимой */
+}
+
+.mpld3-path {
+    stroke-width: 2px !important;
+    stroke: #ffffff !important; /* Цвет линии графика */
+}
+
+/* Переопределение transform для элемента с классом mpld3-baseaxes */
+.mpld3-baseaxes {
+    transform: translate(0, 0) !important;
+}

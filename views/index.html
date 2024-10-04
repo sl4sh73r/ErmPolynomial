@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electron Python Integration</title>
+    <link rel="stylesheet" href="../style.css">
+    <link rel="stylesheet" href="https://unpkg.com/katex@0.12.0/dist/katex.min.css">
+    <script defer src="https://unpkg.com/katex@0.12.0/dist/katex.min.js"></script>
+    <script src="https://d3js.org/d3.v5.js"></script>
+    <script src="https://mpld3.github.io/js/mpld3.v0.5.10.js"></script>
+</head>
+<body>
+    <div class="title-bar">
+        <button id="minimizeButton" class="window-control"><img src="https://img.icons8.com/ios-filled/50/ffffff/minus.png" alt="Minimize"></button>
+        <button id="maximizeButton" class="window-control"><img src="https://img.icons8.com/ios-filled/50/ffffff/full-screen.png" alt="Maximize"></button>
+        <button id="closeButton" class="window-control"><img src="https://img.icons8.com/ios-filled/50/ffffff/close-window.png" alt="Close"></button>
+    </div>
+    <div class="container">
+        <h1>Загрузка и обработка Excel файла</h1>
+        <input type="file" id="fileInput">
+        <button id="loadFileButton">Загрузить файл</button>
+        <h2>Полином</h2>
+        <div id="polynomialOutput" class="neon-border"></div>
+        <button id="showPolynomialButton">Показать полином</button>
+        <h2>Система уравнений</h2>
+        <div id="equationsOutput" class="neon-border"></div>
+        <button id="showEquationsButton">Показать систему уравнений</button>
+        <h2>График</h2>
+        <div id="plotOutputContainer"></div>
+        <button id="showPlotButton">Показать график</button>
+    </div>
+    <script src="renderer.js"></script>
+</body>
+</html>
