@@ -55,7 +55,7 @@ body {
 
 .container {
   width: 80%;
-  max-width: 800px;
+  /* max-width: 800px; */
   background-color: rgba(255, 255, 255, 0.2); /* Полупрозрачный фон контейнера */
   padding: 20px;
   border-radius: 10px;
@@ -66,8 +66,8 @@ body {
 }
 
 .container.maximized {
-  width: 100% !important; /* Устанавливаем ширину на 100% при максимизации */
-  height: 100% !important; /* Устанавливаем высоту на 100% при максимизации */
+  width: 80% !important; /* Устанавливаем ширину на 100% при максимизации */
+  height: 80% !important; /* Устанавливаем высоту на 100% при максимизации */
 }
 
 h1, h2 {
@@ -298,6 +298,6 @@ img {
 }
 
 .mpld3-baseaxes.maximized {
-  transform: scale(0.9) translate(50px, 20px) !important;
+  transform: scale(1) translate(120px, 80px) !important;
   transition: transform 0.3s ease !important; /* Плавный переход для масштаба */
 }
