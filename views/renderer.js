@@ -9,14 +9,28 @@ document.getElementById('maximizeButton').addEventListener('click', async () => 
   if (isCurrentlyMaximized) {
     window.electronAPI.unmaximizeWindow();
     container.classList.remove('maximized');
-    mpld3Baseaxes.classList.remove('maximized');
+    if (mpld3Baseaxes) {
+      mpld3Baseaxes.classList.remove('maximized');
+    }
   } else {
     window.electronAPI.maximizeWindow();
     container.classList.add('maximized');
-    mpld3Baseaxes.classList.add('maximized');
+    if (mpld3Baseaxes) {
+      mpld3Baseaxes.classList.add('maximized');
+    }
   }
 
   isMaximized = !isMaximized;
+
+  // Перерисовка графика с небольшой задержкой
+  setTimeout(() => {
+    if (typeof mpld3 !== 'undefined' && mpld3._mpld3IsLoaded) {
+      const figureId = mpld3Baseaxes ? mpld3Baseaxes.id : null;
+      if (figureId) {
+        mpld3.draw_figure(figureId, mpld3.figures[figureId].data);
+      }
+    }
+  }, 300); // Задержка в 300 миллисекунд
 });
 
 document.getElementById('minimizeButton').addEventListener('click', () => {
@@ -58,8 +72,14 @@ document.getElementById('loadFileButton').addEventListener('click', async () => 
 
 document.getElementById('showPolynomialButton').addEventListener('click', async () => {
   try {
-    const result = await window.electronAPI.getPolynomial();
     let polynomialOutput = document.getElementById('polynomialOutput');
+    if (polynomialOutput && polynomialOutput.style.display === 'block') {
+      polynomialOutput.style.display = 'none';
+      document.getElementById('showPolynomialButton').innerHTML = '<i class="fas fa-eye"></i> Показать полином';
+      return;
+    }
+
+    const result = await window.electronAPI.getPolynomial();
     if (!polynomialOutput) {
       polynomialOutput = document.createElement('div');
       polynomialOutput.id = 'polynomialOutput';
@@ -72,8 +92,8 @@ document.getElementById('showPolynomialButton').addEventListener('click', async 
     const scrollButtons = document.createElement('div');
     scrollButtons.className = 'scroll-buttons';
     scrollButtons.innerHTML = `
-      <button id="scrollLeftButton" class="scroll-button">←</button>
-      <button id="scrollRightButton" class="scroll-button">→</button>
+      <button id="scrollLeftButton" class="scroll-button"><i class="fas fa-arrow-left"></i></button>
+      <button id="scrollRightButton" class="scroll-button"><i class="fas fa-arrow-right"></i></button>
     `;
     polynomialOutput.appendChild(scrollButtons);
 
@@ -104,9 +124,19 @@ document.getElementById('showPolynomialButton').addEventListener('click', async 
       outputBoxContent.style.transform = `scale(${event.target.value})`;
     });
 
+    // Проверка состояния окна при отображении полинома
+    const isCurrentlyMaximized = await window.electronAPI.isWindowMaximized();
+    if (isCurrentlyMaximized) {
+      polynomialOutput.classList.add('maximized');
+      console
+    } else {
+      polynomialOutput.classList.remove('maximized');
+    }
+
     // Отображаем элементы управления и неоновую рамку
     polynomialOutput.style.display = 'block';
     scrollButtons.style.display = 'flex';
+    document.getElementById('showPolynomialButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть полином';
   } catch (error) {
     console.error('Error getting polynomial:', error);
   }
@@ -114,8 +144,14 @@ document.getElementById('showPolynomialButton').addEventListener('click', async 
 
 document.getElementById('showEquationsButton').addEventListener('click', async () => {
   try {
-    const result = await window.electronAPI.getEquations();
     let equationsOutput = document.getElementById('equationsOutput');
+    if (equationsOutput && equationsOutput.style.display === 'block') {
+      equationsOutput.style.display = 'none';
+      document.getElementById('showEquationsButton').innerHTML = '<i class="fas fa-eye"></i> Показать систему уравнений';
+      return;
+    }
+
+    const result = await window.electronAPI.getEquations();
     if (!equationsOutput) {
       equationsOutput = document.createElement('div');
       equationsOutput.id = 'equationsOutput';
@@ -128,8 +164,8 @@ document.getElementById('showEquationsButton').addEventListener('click', async (
     const scrollButtons = document.createElement('div');
     scrollButtons.className = 'scroll-buttons';
     scrollButtons.innerHTML = `
-      <button id="scrollLeftButtonEq" class="scroll-button">←</button>
-      <button id="scrollRightButtonEq" class="scroll-button">→</button>
+      <button id="scrollLeftButtonEq" class="scroll-button"><i class="fas fa-arrow-left"></i></button>
+      <button id="scrollRightButtonEq" class="scroll-button"><i class="fas fa-arrow-right"></i></button>
     `;
     equationsOutput.appendChild(scrollButtons);
 
@@ -163,80 +199,70 @@ document.getElementById('showEquationsButton').addEventListener('click', async (
     // Отображаем элементы управления и неоновую рамку
     equationsOutput.style.display = 'block';
     scrollButtons.style.display = 'flex';
+    document.getElementById('showEquationsButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть систему уравнений';
   } catch (error) {
     console.error('Error getting equations:', error);
   }
 });
+
 document.getElementById('showPlotButton').addEventListener('click', async () => {
   try {
-    const result = await window.electronAPI.getPlot();
     const plotOutputContainer = document.getElementById('plotOutputContainer');
+    console.log('showPlotButton clicked'); // Отладочное сообщение
+
+    if (plotOutputContainer.style.display === 'block') {
+      plotOutputContainer.style.display = 'none';
+      document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye"></i> Показать график';
+      return;
+    }
+
+    const result = await window.electronAPI.getPlot();
+    console.log('Plot data received'); // Отладочное сообщение
 
     // Удаляем старый график, если он существует
     const oldPlotOutput = document.getElementById('plotOutput');
     if (oldPlotOutput) {
       plotOutputContainer.removeChild(oldPlotOutput);
+      console.log('Old plot removed'); // Отладочное сообщение
     }
 
     // Создаем новый элемент div для графика
     const plotOutput = document.createElement('div');
     plotOutput.id = 'plotOutput';
     plotOutputContainer.appendChild(plotOutput);
+    console.log('New plot element created'); // Отладочное сообщение
 
-    // Проверка, является ли результат JSON
-    let figureData;
-    try {
-      figureData = JSON.parse(result);
-    } catch (e) {
-      // Если результат не JSON, обрабатываем его как HTML
-      plotOutput.innerHTML = result;
+    // Проверка состояния окна при отображении графика
+    const isCurrentlyMaximized = await window.electronAPI.isWindowMaximized();
+    if (isCurrentlyMaximized) {
+      plotOutput.classList.add('maximized');
+      console.log('Plot maximized'); // Отладочное сообщение
+    } else {
+      plotOutput.classList.remove('maximized');
+      console.log('Plot not maximized'); // Отладочное сообщение
+    }
 
-      // Используем setTimeout для задержки выполнения скриптов
-      setTimeout(() => {
-        const scripts = plotOutput.getElementsByTagName('script');
-        for (let script of scripts) {
-          const newScript = document.createElement('script');
-          if (script.src) {
-            newScript.src = script.src;
-          } else {
-            newScript.textContent = script.textContent;
-          }
-          document.head.appendChild(newScript);
+    // Обрабатываем данные как HTML
+    plotOutput.innerHTML = result;
+    console.log('Plot data is HTML'); // Отладочное сообщение
+
+    // Используем setTimeout для задержки выполнения скриптов
+    setTimeout(() => {
+      const scripts = plotOutput.getElementsByTagName('script');
+      for (let script of scripts) {
+        const newScript = document.createElement('script');
+        if (script.src) {
+          newScript.src = script.src;
+        } else {
+          newScript.textContent = script.textContent;
         }
-        console.log('Plot displayed as HTML'); // Отладочное сообщение
-      }, 100); // Задержка в 100 миллисекунд
+        document.head.appendChild(newScript);
+      }
+      console.log('Plot displayed as HTML'); // Отладочное сообщение
+    }, 100); // Задержка в 100 миллисекунд
 
-      return;
-    }
-
-    // Динамическая загрузка mpld3
-    const loadScript = (url) => {
-      return new Promise((resolve, reject) => {
-        const script = document.createElement('script');
-        script.src = url;
-        script.onload = resolve;
-        script.onerror = () => reject(new Error(`Failed to load script ${url}`));
-        document.head.appendChild(script);
-      });
-    };
-
-    // Загрузка необходимых библиотек с обработкой ошибок
-    try {
-      await loadScript('https://d3js.org/d3.v5.js');
-      await loadScript('https://mpld3.github.io/js/mpld3.v0.5.10.js');
-      console.log('Plot data loaded'); // Отладочное сообщение
-    } catch (error) {
-      console.error('Error loading scripts:', error);
-      return;
-    }
-
-    // Убедимся, что mpld3 загружен и вызовем функцию отрисовки
-    if (typeof mpld3 !== 'undefined' && mpld3._mpld3IsLoaded) {
-      const figureId = plotOutput.querySelector('div').id;
-      mpld3.draw_figure(figureId, figureData);
-    }
-
-    console.log('Plot displayed as JSON'); // Отладочное сообщение
+    plotOutputContainer.style.display = 'block';
+    document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть график';
   } catch (error) {
     console.error('Error getting plot:', error);
   }

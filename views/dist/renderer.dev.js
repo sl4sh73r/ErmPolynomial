@@ -18,16 +18,32 @@ document.getElementById('maximizeButton').addEventListener('click', function _ca
           if (isCurrentlyMaximized) {
             window.electronAPI.unmaximizeWindow();
             container.classList.remove('maximized');
-            mpld3Baseaxes.classList.remove('maximized');
+
+            if (mpld3Baseaxes) {
+              mpld3Baseaxes.classList.remove('maximized');
+            }
           } else {
             window.electronAPI.maximizeWindow();
             container.classList.add('maximized');
-            mpld3Baseaxes.classList.add('maximized');
+
+            if (mpld3Baseaxes) {
+              mpld3Baseaxes.classList.add('maximized');
+            }
           }
 
-          isMaximized = !isMaximized;
+          isMaximized = !isMaximized; // Перерисовка графика с небольшой задержкой
 
-        case 7:
+          setTimeout(function () {
+            if (typeof mpld3 !== 'undefined' && mpld3._mpld3IsLoaded) {
+              var figureId = mpld3Baseaxes ? mpld3Baseaxes.id : null;
+
+              if (figureId) {
+                mpld3.draw_figure(figureId, mpld3.figures[figureId].data);
+              }
+            }
+          }, 300); // Задержка в 300 миллисекунд
+
+        case 8:
         case "end":
           return _context.stop();
       }
@@ -105,18 +121,29 @@ document.getElementById('loadFileButton').addEventListener('click', function _ca
   });
 });
 document.getElementById('showPolynomialButton').addEventListener('click', function _callee4() {
-  var result, polynomialOutput, scrollButtons, zoomSlider;
+  var polynomialOutput, result, scrollButtons, zoomSlider, isCurrentlyMaximized;
   return regeneratorRuntime.async(function _callee4$(_context4) {
     while (1) {
       switch (_context4.prev = _context4.next) {
         case 0:
           _context4.prev = 0;
-          _context4.next = 3;
+          polynomialOutput = document.getElementById('polynomialOutput');
+
+          if (!(polynomialOutput && polynomialOutput.style.display === 'block')) {
+            _context4.next = 6;
+            break;
+          }
+
+          polynomialOutput.style.display = 'none';
+          document.getElementById('showPolynomialButton').innerHTML = '<i class="fas fa-eye"></i> Показать полином';
+          return _context4.abrupt("return");
+
+        case 6:
+          _context4.next = 8;
           return regeneratorRuntime.awrap(window.electronAPI.getPolynomial());
 
-        case 3:
+        case 8:
           result = _context4.sent;
-          polynomialOutput = document.getElementById('polynomialOutput');
 
           if (!polynomialOutput) {
             polynomialOutput = document.createElement('div');
@@ -130,7 +157,7 @@ document.getElementById('showPolynomialButton').addEventListener('click', functi
 
           scrollButtons = document.createElement('div');
           scrollButtons.className = 'scroll-buttons';
-          scrollButtons.innerHTML = "\n      <button id=\"scrollLeftButton\" class=\"scroll-button\">\u2190</button>\n      <button id=\"scrollRightButton\" class=\"scroll-button\">\u2192</button>\n    ";
+          scrollButtons.innerHTML = "\n      <button id=\"scrollLeftButton\" class=\"scroll-button\"><i class=\"fas fa-arrow-left\"></i></button>\n      <button id=\"scrollRightButton\" class=\"scroll-button\"><i class=\"fas fa-arrow-right\"></i></button>\n    ";
           polynomialOutput.appendChild(scrollButtons); // Создаем и добавляем слайдер для изменения масштаба
 
           zoomSlider = document.createElement('input');
@@ -160,38 +187,64 @@ document.getElementById('showPolynomialButton').addEventListener('click', functi
           zoomSlider.addEventListener('input', function (event) {
             var outputBoxContent = document.querySelector('.output-box').firstChild;
             outputBoxContent.style.transform = "scale(".concat(event.target.value, ")");
-          }); // Отображаем элементы управления и неоновую рамку
+          }); // Проверка состояния окна при отображении полинома
+
+          _context4.next = 28;
+          return regeneratorRuntime.awrap(window.electronAPI.isWindowMaximized());
+
+        case 28:
+          isCurrentlyMaximized = _context4.sent;
+
+          if (isCurrentlyMaximized) {
+            polynomialOutput.classList.add('maximized');
+            console;
+          } else {
+            polynomialOutput.classList.remove('maximized');
+          } // Отображаем элементы управления и неоновую рамку
+
 
           polynomialOutput.style.display = 'block';
           scrollButtons.style.display = 'flex';
-          _context4.next = 29;
+          document.getElementById('showPolynomialButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть полином';
+          _context4.next = 38;
           break;
 
-        case 26:
-          _context4.prev = 26;
+        case 35:
+          _context4.prev = 35;
           _context4.t0 = _context4["catch"](0);
           console.error('Error getting polynomial:', _context4.t0);
 
-        case 29:
+        case 38:
         case "end":
           return _context4.stop();
       }
     }
-  }, null, null, [[0, 26]]);
+  }, null, null, [[0, 35]]);
 });
 document.getElementById('showEquationsButton').addEventListener('click', function _callee5() {
-  var result, equationsOutput, scrollButtons, zoomSlider;
+  var equationsOutput, result, scrollButtons, zoomSlider;
   return regeneratorRuntime.async(function _callee5$(_context5) {
     while (1) {
       switch (_context5.prev = _context5.next) {
         case 0:
           _context5.prev = 0;
-          _context5.next = 3;
+          equationsOutput = document.getElementById('equationsOutput');
+
+          if (!(equationsOutput && equationsOutput.style.display === 'block')) {
+            _context5.next = 6;
+            break;
+          }
+
+          equationsOutput.style.display = 'none';
+          document.getElementById('showEquationsButton').innerHTML = '<i class="fas fa-eye"></i> Показать систему уравнений';
+          return _context5.abrupt("return");
+
+        case 6:
+          _context5.next = 8;
           return regeneratorRuntime.awrap(window.electronAPI.getEquations());
 
-        case 3:
+        case 8:
           result = _context5.sent;
-          equationsOutput = document.getElementById('equationsOutput');
 
           if (!equationsOutput) {
             equationsOutput = document.createElement('div');
@@ -205,7 +258,7 @@ document.getElementById('showEquationsButton').addEventListener('click', functio
 
           scrollButtons = document.createElement('div');
           scrollButtons.className = 'scroll-buttons';
-          scrollButtons.innerHTML = "\n      <button id=\"scrollLeftButtonEq\" class=\"scroll-button\">\u2190</button>\n      <button id=\"scrollRightButtonEq\" class=\"scroll-button\">\u2192</button>\n    ";
+          scrollButtons.innerHTML = "\n      <button id=\"scrollLeftButtonEq\" class=\"scroll-button\"><i class=\"fas fa-arrow-left\"></i></button>\n      <button id=\"scrollRightButtonEq\" class=\"scroll-button\"><i class=\"fas fa-arrow-right\"></i></button>\n    ";
           equationsOutput.appendChild(scrollButtons); // Создаем и добавляем слайдер для изменения масштаба
 
           zoomSlider = document.createElement('input');
@@ -239,56 +292,82 @@ document.getElementById('showEquationsButton').addEventListener('click', functio
 
           equationsOutput.style.display = 'block';
           scrollButtons.style.display = 'flex';
-          _context5.next = 29;
+          document.getElementById('showEquationsButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть систему уравнений';
+          _context5.next = 34;
           break;
 
-        case 26:
-          _context5.prev = 26;
+        case 31:
+          _context5.prev = 31;
           _context5.t0 = _context5["catch"](0);
           console.error('Error getting equations:', _context5.t0);
 
-        case 29:
+        case 34:
         case "end":
           return _context5.stop();
       }
     }
-  }, null, null, [[0, 26]]);
+  }, null, null, [[0, 31]]);
 });
 document.getElementById('showPlotButton').addEventListener('click', function _callee6() {
-  var result, plotOutputContainer, oldPlotOutput, plotOutput, figureData, loadScript, figureId;
+  var plotOutputContainer, result, oldPlotOutput, plotOutput, isCurrentlyMaximized;
   return regeneratorRuntime.async(function _callee6$(_context6) {
     while (1) {
       switch (_context6.prev = _context6.next) {
         case 0:
           _context6.prev = 0;
-          _context6.next = 3;
+          plotOutputContainer = document.getElementById('plotOutputContainer');
+          console.log('showPlotButton clicked'); // Отладочное сообщение
+
+          if (!(plotOutputContainer.style.display === 'block')) {
+            _context6.next = 7;
+            break;
+          }
+
+          plotOutputContainer.style.display = 'none';
+          document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye"></i> Показать график';
+          return _context6.abrupt("return");
+
+        case 7:
+          _context6.next = 9;
           return regeneratorRuntime.awrap(window.electronAPI.getPlot());
 
-        case 3:
+        case 9:
           result = _context6.sent;
-          plotOutputContainer = document.getElementById('plotOutputContainer'); // Удаляем старый график, если он существует
+          console.log('Plot data received'); // Отладочное сообщение
+          // Удаляем старый график, если он существует
 
           oldPlotOutput = document.getElementById('plotOutput');
 
           if (oldPlotOutput) {
             plotOutputContainer.removeChild(oldPlotOutput);
+            console.log('Old plot removed'); // Отладочное сообщение
           } // Создаем новый элемент div для графика
 
 
           plotOutput = document.createElement('div');
           plotOutput.id = 'plotOutput';
-          plotOutputContainer.appendChild(plotOutput); // Проверка, является ли результат JSON
+          plotOutputContainer.appendChild(plotOutput);
+          console.log('New plot element created'); // Отладочное сообщение
+          // Проверка состояния окна при отображении графика
 
-          _context6.prev = 10;
-          figureData = JSON.parse(result);
           _context6.next = 19;
-          break;
+          return regeneratorRuntime.awrap(window.electronAPI.isWindowMaximized());
 
-        case 14:
-          _context6.prev = 14;
-          _context6.t0 = _context6["catch"](10);
-          // Если результат не JSON, обрабатываем его как HTML
-          plotOutput.innerHTML = result; // Используем setTimeout для задержки выполнения скриптов
+        case 19:
+          isCurrentlyMaximized = _context6.sent;
+
+          if (isCurrentlyMaximized) {
+            plotOutput.classList.add('maximized');
+            console.log('Plot maximized'); // Отладочное сообщение
+          } else {
+            plotOutput.classList.remove('maximized');
+            console.log('Plot not maximized'); // Отладочное сообщение
+          } // Обрабатываем данные как HTML
+
+
+          plotOutput.innerHTML = result;
+          console.log('Plot data is HTML'); // Отладочное сообщение
+          // Используем setTimeout для задержки выполнения скриптов
 
           setTimeout(function () {
             var scripts = plotOutput.getElementsByTagName('script');
@@ -327,66 +406,20 @@ document.getElementById('showPlotButton').addEventListener('click', function _ca
             console.log('Plot displayed as HTML'); // Отладочное сообщение
           }, 100); // Задержка в 100 миллисекунд
 
-          return _context6.abrupt("return");
-
-        case 19:
-          // Динамическая загрузка mpld3
-          loadScript = function loadScript(url) {
-            return new Promise(function (resolve, reject) {
-              var script = document.createElement('script');
-              script.src = url;
-              script.onload = resolve;
-
-              script.onerror = function () {
-                return reject(new Error("Failed to load script ".concat(url)));
-              };
-
-              document.head.appendChild(script);
-            });
-          }; // Загрузка необходимых библиотек с обработкой ошибок
-
-
-          _context6.prev = 20;
-          _context6.next = 23;
-          return regeneratorRuntime.awrap(loadScript('https://d3js.org/d3.v5.js'));
-
-        case 23:
-          _context6.next = 25;
-          return regeneratorRuntime.awrap(loadScript('https://mpld3.github.io/js/mpld3.v0.5.10.js'));
-
-        case 25:
-          console.log('Plot data loaded'); // Отладочное сообщение
-
-          _context6.next = 32;
+          plotOutputContainer.style.display = 'block';
+          document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть график';
+          _context6.next = 31;
           break;
 
         case 28:
           _context6.prev = 28;
-          _context6.t1 = _context6["catch"](20);
-          console.error('Error loading scripts:', _context6.t1);
-          return _context6.abrupt("return");
+          _context6.t0 = _context6["catch"](0);
+          console.error('Error getting plot:', _context6.t0);
 
-        case 32:
-          // Убедимся, что mpld3 загружен и вызовем функцию отрисовки
-          if (typeof mpld3 !== 'undefined' && mpld3._mpld3IsLoaded) {
-            figureId = plotOutput.querySelector('div').id;
-            mpld3.draw_figure(figureId, figureData);
-          }
-
-          console.log('Plot displayed as JSON'); // Отладочное сообщение
-
-          _context6.next = 39;
-          break;
-
-        case 36:
-          _context6.prev = 36;
-          _context6.t2 = _context6["catch"](0);
-          console.error('Error getting plot:', _context6.t2);
-
-        case 39:
+        case 31:
         case "end":
           return _context6.stop();
       }
     }
-  }, null, null, [[0, 36], [10, 14], [20, 28]]);
+  }, null, null, [[0, 28]]);
 });
