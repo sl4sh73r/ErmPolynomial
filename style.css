@@ -287,10 +287,11 @@ img {
     stroke: rgba(255, 255, 255, 0.8) !important; /* Сделать сетку более видимой */
 }
 
-.mpld3-path {
+/* .mpld3-path {
     stroke-width: 2px !important;
-    stroke: #ffffff !important; /* Цвет линии графика */
-}
+    stroke: #ffffff !important;
+   
+} */
 
 .mpld3-baseaxes {
   transform: scale(0.7) translate(25px, 5px) !important;

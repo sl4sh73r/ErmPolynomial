@@ -25,3 +25,55 @@ uploads/*.xlsx
 # Logs
 logs/
 *.log
+
+# OS generated files
+.DS_Store
+Thumbs.db
+
+# Environment variables
+.env
+
+# Build directories
+dist/
+build/
+
+# Temporary files
+tmp/
+temp/
+*.tmp
+*.temp
+
+# IDE specific files
+.idea/
+*.iml
+
+# Coverage reports
+coverage/
+*.lcov
+
+# Compiled files
+*.o
+*.obj
+*.so
+*.dll
+*.exe
+*.out
+*.class
+
+# Package files
+*.tgz
+*.zip
+*.tar
+*.gz
+*.rar
+*.7z
+
+# Miscellaneous
+*.swp
+*.swo
+*.bak
+*.old
+*.orig
+*.rej
+*.sublime-project
+*.sublime-workspace

@@ -1,16 +1,51 @@
 {
   "name": "electron-app",
   "version": "1.0.0",
+  "description": "ErmPolynomial",
+  "author": "SL4SH73R",
   "main": "main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "dist": "electron-builder"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "description": "",
+  "build": {
+    "appId": "com.example.electronapp",
+    "win": {
+      "target": "nsis",
+      "icon": "local/logo.ico"
+    },
+    "files": [
+      "main.js",
+      "controllers/**",
+      "models/**",
+      "python/**",
+      "views/**",
+      "preload.js",
+      "style.css",
+      "package.json"
+    ],
+    "extraResources": [
+      {
+        "from": ".venv/Scripts/python.exe",
+        "to": "python/python.exe"
+      },
+      {
+        "from": ".venv/Lib/site-packages",
+        "to": "python/Lib/site-packages",
+        "filter": ["**/*"]
+      },
+      {
+        "from": ".venv/Lib",
+        "to": "python/Lib",
+        "filter": ["**/*"]
+      }
+    ]
+  },
   "dependencies": {
-    "electron": "^32.1.2",
     "katex": "^0.16.11"
+  },
+  "devDependencies": {
+    "electron": "^32.1.2",
+    "electron-builder": "^23.6.0"
   }
 }
