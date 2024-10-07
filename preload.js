@@ -2,12 +2,12 @@ const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
   loadFile: (fileContent) => ipcRenderer.invoke('load-file', fileContent),
-  getPolynomial: () => ipcRenderer.invoke('get-polynomial'),
+  getPolynomial: (method) => ipcRenderer.invoke('get-polynomial', method),
   getEquations: () => ipcRenderer.invoke('get-equations'),
   getPlot: () => ipcRenderer.invoke('get-plot'),
-  isWindowMaximized: () => ipcRenderer.invoke('isWindowMaximized'),
-  maximizeWindow: () => ipcRenderer.invoke('maximizeWindow'),
-  unmaximizeWindow: () => ipcRenderer.invoke('unmaximizeWindow'),
-  minimizeWindow: () => ipcRenderer.invoke('minimizeWindow'),
-  closeWindow: () => ipcRenderer.invoke('closeWindow')
+  isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
+  maximizeWindow: () => ipcRenderer.invoke('maximize-window'),
+  unmaximizeWindow: () => ipcRenderer.invoke('unmaximize-window'),
+  minimizeWindow: () => ipcRenderer.invoke('minimize-window'),
+  closeWindow: () => ipcRenderer.invoke('close-window')
 });

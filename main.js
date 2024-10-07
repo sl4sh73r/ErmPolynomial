@@ -38,22 +38,22 @@ app.on('activate', () => {
   }
 });
 
-ipcMain.handle('isWindowMaximized', () => {
+ipcMain.handle('is-window-maximized', () => {
   return mainWindow.isMaximized();
 });
 
-ipcMain.handle('maximizeWindow', () => {
+ipcMain.handle('maximize-window', () => {
   mainWindow.maximize();
 });
 
-ipcMain.handle('unmaximizeWindow', () => {
+ipcMain.handle('unmaximize-window', () => {
   mainWindow.unmaximize();
 });
 
-ipcMain.handle('minimizeWindow', () => {
+ipcMain.handle('minimize-window', () => {
   mainWindow.minimize();
 });
 
-ipcMain.handle('closeWindow', () => {
+ipcMain.handle('close-window', () => {
   mainWindow.close();
 });

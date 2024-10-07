@@ -25,14 +25,15 @@ ipcMain.handle('load-file', async (event, fileContent) => {
   }
 });
 
-ipcMain.handle('get-polynomial', async () => {
+ipcMain.handle('get-polynomial', async (event, method) => {
   try {
-    const result = await runPythonScript('polynomial', [filePath]);
+    console.log(`Received method: ${method}`); // Отладочное сообщение
+    const command = method === 'lagrange' ? 'lagrange' : 'polynomial';
+    console.log(`Running Python script with: ${command} and args: [ '${filePath}' ]`); // Отладочное сообщение
+    const result = await runPythonScript(command, [filePath]);
+    console.log(`Python script result: ${result}`); // Отладочное сообщение
     
-    // Добавляем переносы строк в LaTeX строку
-    const formattedResult = result.replace(/ \+ /g, ' \\\\ + ');
-    
-    const html = katex.renderToString(formattedResult, {
+    const html = katex.renderToString(result, {
       throwOnError: false,
       displayMode: true
     });

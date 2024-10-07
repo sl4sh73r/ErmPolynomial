@@ -79,7 +79,10 @@ document.getElementById('showPolynomialButton').addEventListener('click', async 
       return;
     }
 
-    const result = await window.electronAPI.getPolynomial();
+    const method = document.getElementById('polynomialMethodSelector').value;
+    console.log(`Selected method: ${method}`); // Отладочное сообщение
+    const result = await window.electronAPI.getPolynomial(method);
+    console.log(`Received result: ${result}`); // Отладочное сообщение
     if (!polynomialOutput) {
       polynomialOutput = document.createElement('div');
       polynomialOutput.id = 'polynomialOutput';
@@ -128,7 +131,6 @@ document.getElementById('showPolynomialButton').addEventListener('click', async 
     const isCurrentlyMaximized = await window.electronAPI.isWindowMaximized();
     if (isCurrentlyMaximized) {
       polynomialOutput.classList.add('maximized');
-      console
     } else {
       polynomialOutput.classList.remove('maximized');
     }

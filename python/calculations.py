@@ -64,6 +64,24 @@ def newton_poly(coef, x_data, x):
         p = coef[n - k] + (x - x_data[n - k]) * p
     return p
 
+def lagrange_poly(x_data, y_data, x):
+    """
+    Вычисляет значение полинома Лагранжа в точке x.
+    
+    :param x_data: Массив значений x
+    :param y_data: Массив значений y
+    :param x: Точка, в которой вычисляется значение полинома
+    :return: Значение полинома в точке x
+    """
+    def L(k, x):
+        term = y_data[k]
+        for i in range(len(x_data)):
+            if i != k:
+                term *= (x - x_data[i]) / (x_data[k] - x_data[i])
+        return term
+
+    return sum(L(k, x) for k in range(len(x_data)))
+
 def polynomial_to_string(coefficients, x_values):
     """
     Преобразует полином Ньютона в строковое представление.
@@ -106,6 +124,25 @@ def create_system_of_equations(coefficients, x_values, y_values):
     latex_equations += " \\\\ ".join(equations)
     latex_equations += " \\end{cases}"
     return latex_equations
+
+def lagrange_polynomial_to_latex(x_data, y_data):
+    """
+    Преобразует полином Лагранжа в строковое представление LaTeX.
+    
+    :param x_data: Массив значений x
+    :param y_data: Массив значений y
+    :return: Строковое представление полинома в формате LaTeX
+    """
+    terms = []
+    for i in range(len(x_data)):
+        term = f"{y_data[i]:.2f}"
+        for j in range(len(x_data)):
+            if i != j:
+                term += f" \\frac{{(x - {x_data[j]})}}{{({x_data[i]} - {x_data[j]})}}"
+        terms.append(term)
+    polynomial = " + ".join(terms)
+    polynomial = polynomial.replace("+ -", "- ")
+    return f"P(x) = {polynomial}"
 
 def plot_graph(x_values, y_values, coefficients):
     """
@@ -167,3 +204,9 @@ if __name__ == "__main__":
         load_data_from_excel(file_path)
         result = plot_graph(x_values, y_values, coefficients)
         print(result)
+    elif command == "lagrange":
+        if not file_path:
+            raise ValueError("No file path provided")
+        load_data_from_excel(file_path)
+        polynomial_latex = lagrange_polynomial_to_latex(x_values, y_values)
+        print(polynomial_latex)
