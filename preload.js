@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   getPolynomial: (method) => ipcRenderer.invoke('get-polynomial', method),
   getEquations: () => ipcRenderer.invoke('get-equations'),
   getPlot: () => ipcRenderer.invoke('get-plot'),
+  getPredictedPoints: () => ipcRenderer.invoke('get-predicted-points'), // Добавлен метод для получения предсказанных точек
   isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
   maximizeWindow: () => ipcRenderer.invoke('maximize-window'),
   unmaximizeWindow: () => ipcRenderer.invoke('unmaximize-window'),

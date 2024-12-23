@@ -68,3 +68,13 @@ ipcMain.handle('get-plot', async () => {
     throw error;
   }
 });
+
+ipcMain.handle('get-predicted-points', async () => {
+  try {
+    const result = await runPythonScript('predicted_points', [filePath]);
+    return result; // Возвращаем HTML таблицу с предсказанными точками
+  } catch (error) {
+    console.error('Error in get-predicted-points handler:', error);
+    throw error;
+  }
+});

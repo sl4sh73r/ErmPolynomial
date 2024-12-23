@@ -269,3 +269,29 @@ document.getElementById('showPlotButton').addEventListener('click', async () => 
     console.error('Error getting plot:', error);
   }
 });
+document.getElementById('showPredictedPointsButton').addEventListener('click', async () => {
+  try {
+    let predictedPointsOutput = document.getElementById('predictedPointsOutput');
+    if (predictedPointsOutput && predictedPointsOutput.style.display === 'block') {
+      predictedPointsOutput.style.display = 'none';
+      document.getElementById('showPredictedPointsButton').innerHTML = '<i class="fas fa-eye"></i> Показать предсказанные точки';
+      return;
+    }
+
+    const result = await window.electronAPI.getPredictedPoints();
+    console.log(`Received predicted points: ${result}`); // Отладочное сообщение
+    if (!predictedPointsOutput) {
+      predictedPointsOutput = document.createElement('div');
+      predictedPointsOutput.id = 'predictedPointsOutput';
+      predictedPointsOutput.className = 'neon-border';
+      document.getElementById('showPredictedPointsButton').insertAdjacentElement('afterend', predictedPointsOutput);
+    }
+    predictedPointsOutput.innerHTML = `<div class="output-box">${result}</div>`; // Используем innerHTML для вставки HTML кода
+
+    // Отображаем элементы управления и неоновую рамку
+    predictedPointsOutput.style.display = 'block';
+    document.getElementById('showPredictedPointsButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть предсказанные точки';
+  } catch (error) {
+    console.error('Error getting predicted points:', error);
+  }
+});
