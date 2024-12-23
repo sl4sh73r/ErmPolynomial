@@ -15,7 +15,7 @@ def plot_graph(x_values, y_values, coefficients):
     :param coefficients: Коэффициенты полинома Ньютона
     :return: HTML представление графика
     """
-    if not x_values or not y_values:
+    if x_values.size == 0 or y_values.size == 0:
         raise ValueError("x_values or y_values is empty")
     
     # Создание новых значений x для построения гладкого графика полинома

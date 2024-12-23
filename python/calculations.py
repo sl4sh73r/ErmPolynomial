@@ -4,9 +4,9 @@ from data_processing import load_data_from_excel, polynomial_to_string, create_s
 from plotting import plot_graph, predicted_points_table
 
 # Глобальные переменные для хранения значений x, y и коэффициентов полинома
-x_values = []
-y_values = []
-coefficients = []
+x_values = np.array([])
+y_values = np.array([])
+coefficients = np.array([])
 
 def update_globals(data):
     global x_values, y_values, coefficients

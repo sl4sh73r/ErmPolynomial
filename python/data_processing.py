@@ -120,7 +120,7 @@ def get_predicted_points(x_values, coefficients, num_extra_points=10):
     :param num_extra_points: Количество дополнительных точек для предсказания
     :return: Массивы предсказанных значений x и y
     """
-    if not x_values:
+    if not x_values.size:
         raise ValueError("x_values is empty")
     
     # Предсказанные точки в пределах исходного интервала
