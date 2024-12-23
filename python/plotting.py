@@ -1,7 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import mpld3
-from data_processing import newton_poly
+from data_processing import newton_poly, get_predicted_points
 
 # Устанавливаем режим без графического интерфейса
 plt.switch_backend('Agg')
@@ -15,6 +15,9 @@ def plot_graph(x_values, y_values, coefficients):
     :param coefficients: Коэффициенты полинома Ньютона
     :return: HTML представление графика
     """
+    if not x_values or not y_values:
+        raise ValueError("x_values or y_values is empty")
+    
     # Создание новых значений x для построения гладкого графика полинома
     x_poly = np.linspace(min(x_values), max(x_values), 100)
     y_poly = [newton_poly(coefficients, x_values, x) for x in x_poly]

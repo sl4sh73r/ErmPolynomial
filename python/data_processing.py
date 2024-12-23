@@ -1,22 +1,13 @@
 import pandas as pd
 import numpy as np
 
-# Глобальные переменные для хранения значений x, y и коэффициентов полинома
-x_values = []
-y_values = []
-coefficients = []
-
 def load_data_from_excel(file_path):
     """
     Загружает данные из Excel файла и вычисляет коэффициенты полинома Ньютона.
     
     :param file_path: Путь к Excel файлу
-    :return: Сообщение о загрузке данных
+    :return: Кортеж с массивами x_values, y_values и coefficients
     """
-    global x_values, y_values, coefficients
-    if not file_path:
-        raise ValueError("No file path provided")
-    
     # Чтение данных из Excel файла
     df = pd.read_excel(file_path, header=None)
     x_values = df.iloc[0].dropna().values
@@ -24,7 +15,7 @@ def load_data_from_excel(file_path):
     
     # Вычисление коэффициентов полинома Ньютона
     coefficients = divided_diff(x_values, y_values)[0, :]
-    return "Данные загружены"
+    return x_values, y_values, coefficients
 
 def divided_diff(x, y):
     """
@@ -57,24 +48,6 @@ def newton_poly(coef, x_data, x):
     for k in range(1, n + 1):
         p = coef[n - k] + (x - x_data[n - k]) * p
     return p
-
-def lagrange_poly(x_data, y_data, x):
-    """
-    Вычисляет значение полинома Лагранжа в точке x.
-    
-    :param x_data: Массив значений x
-    :param y_data: Массив значений y
-    :param x: Точка, в которой вычисляется значение полинома
-    :return: Значение полинома в точке x
-    """
-    def L(k, x):
-        term = y_data[k]
-        for i in range(len(x_data)):
-            if i != k:
-                term *= (x - x_data[i]) / (x_data[k] - x_data[i])
-        return term
-
-    return sum(L(k, x) for k in range(len(x_data)))
 
 def polynomial_to_string(coefficients, x_values):
     """
@@ -147,6 +120,9 @@ def get_predicted_points(x_values, coefficients, num_extra_points=10):
     :param num_extra_points: Количество дополнительных точек для предсказания
     :return: Массивы предсказанных значений x и y
     """
+    if not x_values:
+        raise ValueError("x_values is empty")
+    
     # Предсказанные точки в пределах исходного интервала
     x_pred_within = np.linspace(min(x_values), max(x_values), 10)
     y_pred_within = [newton_poly(coefficients, x_values, x) for x in x_pred_within]
