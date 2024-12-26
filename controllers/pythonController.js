@@ -88,3 +88,53 @@ ipcMain.handle('get-monte-carlo', async () => {
     throw error;
   }
 });
+
+ipcMain.handle('linear-regression', async () => {
+  try {
+    const result = await runPythonScript('linear_regression', [filePath]);
+    return result;
+  } catch (error) {
+    console.error('Error in linear-regression handler:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('moving-average', async () => {
+  try {
+    const result = await runPythonScript('moving_average', [filePath]);
+    return result;
+  } catch (error) {
+    console.error('Error in moving-average handler:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('least-squares', async () => {
+  try {
+    const result = await runPythonScript('least_squares', [filePath]);
+    return result;
+  } catch (error) {
+    console.error('Error in least-squares handler:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('monte-carlo-plot', async () => {
+  try {
+    const result = await runPythonScript('monte_carlo_plot', [filePath]);
+    return result;
+  } catch (error) {
+    console.error('Error in monte-carlo-plot handler:', error);
+    throw error;
+  }
+});
+
+ipcMain.handle('multivariable-function', async () => {
+  try {
+    const result = await runPythonScript('multivariable_function', [filePath]);
+    return result;
+  } catch (error) {
+    console.error('Error in multivariable-function handler:', error);
+    throw error;
+  }
+});

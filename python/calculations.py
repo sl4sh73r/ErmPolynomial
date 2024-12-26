@@ -1,7 +1,13 @@
 import sys
 import numpy as np
-from data_processing import load_data_from_excel, polynomial_to_string, create_system_of_equations, lagrange_polynomial_to_latex, get_predicted_points, monte_carlo
+from data_processing import (
+    load_data_from_excel, polynomial_to_string, create_system_of_equations,
+    lagrange_polynomial_to_latex, get_predicted_points, monte_carlo,
+    linear_regression, moving_average, least_squares_approximation,
+    monte_carlo_plot, multivariable_function
+)
 from plotting import plot_graph, predicted_points_table
+
 
 # Глобальные переменные для хранения значений x, y и коэффициентов полинома
 x_values = np.array([])
@@ -67,3 +73,39 @@ if __name__ == "__main__":
         update_globals(result)
         monte_carlo_result = monte_carlo(x_values, y_values)
         print(f"Оценка интеграла методом Монте-Карло: {monte_carlo_result}")
+    
+    elif command == "linear_regression":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        m, c = linear_regression(x_values, y_values)
+        print(f"y = {m:.2f}x + {c:.2f}")
+    elif command == "moving_average":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        ma = moving_average(y_values, window_size=3)
+        print(ma)
+    elif command == "least_squares":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        coeffs = least_squares_approximation(x_values, y_values)
+        print(coeffs)
+    elif command == "monte_carlo_plot":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        monte_carlo_plot(x_values, y_values)
+    elif command == "multivariable_function":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        result = multivariable_function(x_values, y_values)
+        print(result)
+        

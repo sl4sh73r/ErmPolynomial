@@ -152,3 +152,39 @@ def monte_carlo(x_values, y_values, num_samples=1000):
     area = (max_x - min_x) * (max_y - min_y)
     
     return (under_curve / num_samples) * area
+
+
+def linear_regression(x, y):
+    """
+    Выполняет линейную регрессию.
+    """
+    A = np.vstack([x, np.ones(len(x))]).T
+    m, c = np.linalg.lstsq(A, y, rcond=None)[0]
+    return m, c
+
+def moving_average(data, window_size):
+    """
+    Вычисляет скользящее среднее.
+    """
+    return np.convolve(data, np.ones(window_size)/window_size, mode='valid')
+
+def least_squares_approximation(x, y):
+    """
+    Выполняет аппроксимацию методом наименьших квадратов.
+    """
+    A = np.vstack([x**i for i in range(len(x))]).T
+    coeffs = np.linalg.lstsq(A, y, rcond=None)[0]
+    return coeffs
+
+def monte_carlo_plot(x, y, num_samples=1000):
+    """
+    Строит график методом Монте-Карло.
+    """
+    # Ваш код для построения графика Монте-Карло...
+    pass
+
+def multivariable_function(x, y):
+    """
+    Пример функции многих переменных.
+    """
+    return x**2 + y**2

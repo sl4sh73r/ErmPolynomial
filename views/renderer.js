@@ -306,3 +306,48 @@ document.getElementById('showMonteCarloButton').addEventListener('click', async 
     console.error('Error getting Monte Carlo result:', error);
   }
 });
+
+document.getElementById('linearRegressionButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.linearRegression();
+    alert(`Результат линейной регрессии: ${result}`);
+  } catch (error) {
+    console.error('Error getting linear regression:', error);
+  }
+});
+
+document.getElementById('movingAverageButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.movingAverage();
+    alert(`Результат скользящего среднего: ${result}`);
+  } catch (error) {
+    console.error('Error getting moving average:', error);
+  }
+});
+
+document.getElementById('leastSquaresButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.leastSquares();
+    alert(`Результат аппроксимации методом МНК: ${result}`);
+  } catch (error) {
+    console.error('Error getting least squares:', error);
+  }
+});
+
+document.getElementById('monteCarloPlotButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.monteCarloPlot();
+    alert(`График Монте-Карло: ${result}`);
+  } catch (error) {
+    console.error('Error getting Monte Carlo plot:', error);
+  }
+});
+
+document.getElementById('multivariableFunctionButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.multivariableFunction();
+    alert(`Результат функции многих переменных: ${result}`);
+  } catch (error) {
+    console.error('Error getting multivariable function:', error);
+  }
+});
