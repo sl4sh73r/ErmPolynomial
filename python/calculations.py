@@ -1,6 +1,6 @@
 import sys
 import numpy as np
-from data_processing import load_data_from_excel, polynomial_to_string, create_system_of_equations, lagrange_polynomial_to_latex, get_predicted_points
+from data_processing import load_data_from_excel, polynomial_to_string, create_system_of_equations, lagrange_polynomial_to_latex, get_predicted_points, monte_carlo
 from plotting import plot_graph, predicted_points_table
 
 # Глобальные переменные для хранения значений x, y и коэффициентов полинома
@@ -60,3 +60,10 @@ if __name__ == "__main__":
         y_pred = np.concatenate((y_pred_within, y_pred_extra))
         result = predicted_points_table(x_pred, y_pred)
         print(result)
+    elif command == "monte_carlo":
+        if not file_path:
+            raise ValueError("No file path provided")
+        result = load_data_from_excel(file_path)
+        update_globals(result)
+        monte_carlo_result = monte_carlo(x_values, y_values)
+        print(f"Оценка интеграла методом Монте-Карло: {monte_carlo_result}")

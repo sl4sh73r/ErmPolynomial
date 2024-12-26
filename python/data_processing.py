@@ -132,3 +132,23 @@ def get_predicted_points(x_values, coefficients, num_extra_points=10):
     y_pred_extra = [newton_poly(coefficients, x_values, x) for x in x_pred_extra]
     
     return x_pred_within, y_pred_within, x_pred_extra, y_pred_extra
+
+def monte_carlo(x_values, y_values, num_samples=1000):
+    """
+    Выполняет метод Монте-Карло для оценки интеграла функции.
+    
+    :param x_values: Массив значений x
+    :param y_values: Массив значений y
+    :param num_samples: Количество случайных точек для выборки
+    :return: Оценка интеграла функции
+    """
+    min_x, max_x = min(x_values), max(x_values)
+    min_y, max_y = min(y_values), max(y_values)
+    
+    random_x = np.random.uniform(min_x, max_x, num_samples)
+    random_y = np.random.uniform(min_y, max_y, num_samples)
+    
+    under_curve = np.sum(random_y < np.interp(random_x, x_values, y_values))
+    area = (max_x - min_x) * (max_y - min_y)
+    
+    return (under_curve / num_samples) * area

@@ -269,6 +269,7 @@ document.getElementById('showPlotButton').addEventListener('click', async () => 
     console.error('Error getting plot:', error);
   }
 });
+
 document.getElementById('showPredictedPointsButton').addEventListener('click', async () => {
   try {
     let predictedPointsOutput = document.getElementById('predictedPointsOutput');
@@ -293,5 +294,15 @@ document.getElementById('showPredictedPointsButton').addEventListener('click', a
     document.getElementById('showPredictedPointsButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть предсказанные точки';
   } catch (error) {
     console.error('Error getting predicted points:', error);
+  }
+});
+
+document.getElementById('showMonteCarloButton').addEventListener('click', async () => {
+  try {
+    const result = await window.electronAPI.getMonteCarlo();
+    console.log(`Received Monte Carlo result: ${result}`); // Отладочное сообщение
+    alert(`Оценка интеграла методом Монте-Карло: ${result}`);
+  } catch (error) {
+    console.error('Error getting Monte Carlo result:', error);
   }
 });

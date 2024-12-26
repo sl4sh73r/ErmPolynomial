@@ -78,3 +78,13 @@ ipcMain.handle('get-predicted-points', async () => {
     throw error;
   }
 });
+
+ipcMain.handle('get-monte-carlo', async () => {
+  try {
+    const result = await runPythonScript('monte_carlo', [filePath]);
+    return result; // Возвращаем результат метода Монте-Карло
+  } catch (error) {
+    console.error('Error in get-monte-carlo handler:', error);
+    throw error;
+  }
+});
