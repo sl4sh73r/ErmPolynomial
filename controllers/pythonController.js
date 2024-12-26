@@ -59,9 +59,10 @@ ipcMain.handle('get-equations', async () => {
   }
 });
 
-ipcMain.handle('get-plot', async () => {
+ipcMain.handle('get-plot', async (event, method) => {
   try {
-    const result = await runPythonScript('plot', [filePath]);
+    console.log(`Received method: ${method}`); // Отладочное сообщение
+    const result = await runPythonScript('plot', [filePath, method]);
     return result; // Возвращаем HTML-код графика
   } catch (error) {
     console.error('Error in get-plot handler:', error);
@@ -91,7 +92,7 @@ ipcMain.handle('get-monte-carlo', async () => {
 
 ipcMain.handle('linear-regression', async () => {
   try {
-    const result = await runPythonScript('linear_regression', [filePath]);
+    const result = await runPythonScript('plot', [filePath, 'linear_regression']);
     return result;
   } catch (error) {
     console.error('Error in linear-regression handler:', error);
@@ -99,9 +100,19 @@ ipcMain.handle('linear-regression', async () => {
   }
 });
 
+ipcMain.handle('linear-smoothing', async () => {
+  try {
+    const result = await runPythonScript('plot', [filePath, 'linear_smoothing']);
+    return result;
+  } catch (error) {
+    console.error('Error in linear-smoothing handler:', error);
+    throw error;
+  }
+});
+
 ipcMain.handle('moving-average', async () => {
   try {
-    const result = await runPythonScript('moving_average', [filePath]);
+    const result = await runPythonScript('plot', [filePath, 'moving_average']);
     return result;
   } catch (error) {
     console.error('Error in moving-average handler:', error);
@@ -111,7 +122,7 @@ ipcMain.handle('moving-average', async () => {
 
 ipcMain.handle('least-squares', async () => {
   try {
-    const result = await runPythonScript('least_squares', [filePath]);
+    const result = await runPythonScript('plot', [filePath, 'least_squares']);
     return result;
   } catch (error) {
     console.error('Error in least-squares handler:', error);
@@ -121,7 +132,7 @@ ipcMain.handle('least-squares', async () => {
 
 ipcMain.handle('monte-carlo-plot', async () => {
   try {
-    const result = await runPythonScript('monte_carlo_plot', [filePath]);
+    const result = await runPythonScript('plot', [filePath, 'monte_carlo']);
     return result;
   } catch (error) {
     console.error('Error in monte-carlo-plot handler:', error);
@@ -131,7 +142,7 @@ ipcMain.handle('monte-carlo-plot', async () => {
 
 ipcMain.handle('multivariable-function', async () => {
   try {
-    const result = await runPythonScript('multivariable_function', [filePath]);
+    const result = await runPythonScript('plot', [filePath, 'multivariable_function']);
     return result;
   } catch (error) {
     console.error('Error in multivariable-function handler:', error);

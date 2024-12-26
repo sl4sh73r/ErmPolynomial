@@ -207,18 +207,43 @@ document.getElementById('showEquationsButton').addEventListener('click', async (
   }
 });
 
-document.getElementById('showPlotButton').addEventListener('click', async () => {
+document.getElementById('showGraphButton').addEventListener('click', async () => {
   try {
     const plotOutputContainer = document.getElementById('plotOutputContainer');
-    console.log('showPlotButton clicked'); // Отладочное сообщение
+    const method = document.getElementById('graphMethodSelector').value;
+    console.log('showGraphButton clicked'); // Отладочное сообщение
 
     if (plotOutputContainer.style.display === 'block') {
       plotOutputContainer.style.display = 'none';
-      document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye"></i> Показать график';
+      document.getElementById('showGraphButton').innerHTML = '<i class="fas fa-chart-line"></i> Показать график';
       return;
     }
 
-    const result = await window.electronAPI.getPlot();
+    let result;
+    switch (method) {
+      case 'linear_regression':
+        result = await window.electronAPI.linearRegression();
+        break;
+      case 'linear_smoothing':
+        // Добавьте вызов для линейного сглаживания
+        result = await window.electronAPI.linearSmoothing();
+        break;
+      case 'moving_average':
+        result = await window.electronAPI.movingAverage();
+        break;
+      case 'least_squares':
+        result = await window.electronAPI.leastSquares();
+        break;
+      case 'monte_carlo_plot':
+        result = await window.electronAPI.monteCarloPlot();
+        break;
+      case 'multivariable_function':
+        result = await window.electronAPI.multivariableFunction();
+        break;
+      default:
+        console.error('Unknown method:', method);
+        return;
+    }
     console.log('Plot data received'); // Отладочное сообщение
 
     // Удаляем старый график, если он существует
@@ -264,7 +289,7 @@ document.getElementById('showPlotButton').addEventListener('click', async () => 
     }, 100); // Задержка в 100 миллисекунд
 
     plotOutputContainer.style.display = 'block';
-    document.getElementById('showPlotButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть график';
+    document.getElementById('showGraphButton').innerHTML = '<i class="fas fa-eye-slash"></i> Скрыть график';
   } catch (error) {
     console.error('Error getting plot:', error);
   }

@@ -113,29 +113,27 @@ def lagrange_polynomial_to_latex(x_data, y_data):
 
 def get_predicted_points(x_values, coefficients, num_extra_points=10):
     """
-    Возвращает предсказанные точки на основе полинома Ньютона.
+    Получает предсказанные точки на основе полинома Ньютона.
     
     :param x_values: Массив значений x
     :param coefficients: Коэффициенты полинома Ньютона
     :param num_extra_points: Количество дополнительных точек для предсказания
-    :return: Массивы предсказанных значений x и y
+    :return: Два массива: предсказанные значения x и y
     """
-    if not x_values.size:
-        raise ValueError("x_values is empty")
-    
-    # Предсказанные точки в пределах исходного интервала
-    x_pred_within = np.linspace(min(x_values), max(x_values), 10)
+    x_pred_within = np.linspace(min(x_values), max(x_values), len(x_values))
     y_pred_within = [newton_poly(coefficients, x_values, x) for x in x_pred_within]
     
-    # Предсказанные точки за пределами исходного интервала
-    x_pred_extra = np.linspace(max(x_values), max(x_values) + num_extra_points * (x_values[1] - x_values[0]), num_extra_points)
+    x_pred_extra = np.linspace(max(x_values) + 1, max(x_values) + num_extra_points, num_extra_points)
     y_pred_extra = [newton_poly(coefficients, x_values, x) for x in x_pred_extra]
     
     return x_pred_within, y_pred_within, x_pred_extra, y_pred_extra
 
+
 def monte_carlo(x_values, y_values, num_samples=1000):
+
     """
     Выполняет метод Монте-Карло для оценки интеграла функции.
+
     
     :param x_values: Массив значений x
     :param y_values: Массив значений y
@@ -180,8 +178,10 @@ def monte_carlo_plot(x, y, num_samples=1000):
     """
     Строит график методом Монте-Карло.
     """
-    # Ваш код для построения графика Монте-Карло...
-    pass
+    np.random.seed(42)
+    simulations = np.random.normal(np.mean(y), np.std(y), (num_samples, len(x)))
+    simulated_means = np.mean(simulations, axis=0)
+    return simulated_means
 
 def multivariable_function(x, y):
     """

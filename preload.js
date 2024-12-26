@@ -11,5 +11,11 @@ contextBridge.exposeInMainWorld('electronAPI', {
   maximizeWindow: () => ipcRenderer.invoke('maximize-window'),
   unmaximizeWindow: () => ipcRenderer.invoke('unmaximize-window'),
   minimizeWindow: () => ipcRenderer.invoke('minimize-window'),
-  closeWindow: () => ipcRenderer.invoke('close-window')
+  closeWindow: () => ipcRenderer.invoke('close-window'),
+  linearRegression: () => ipcRenderer.invoke('linear-regression'),
+  linearSmoothing: () => ipcRenderer.invoke('linear-smoothing'),
+  movingAverage: () => ipcRenderer.invoke('moving-average'),
+  leastSquares: () => ipcRenderer.invoke('least-squares'),
+  monteCarloPlot: () => ipcRenderer.invoke('monte-carlo-plot'),
+  multivariableFunction: () => ipcRenderer.invoke('multivariable-function')
 });

@@ -302,3 +302,44 @@ img {
   transform: scale(1) translate(120px, 80px) !important;
   transition: transform 0.3s ease !important; /* Плавный переход для масштаба */
 }
+
+/* Стилизация селектора */
+select {
+  margin-top: 10px;
+  padding: 10px;
+  font-size: 16px;
+  color: #ffffff;
+  background-color: #1f1f1f;
+  border: none;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  appearance: none; /* Убираем стандартный стиль браузера */
+  -webkit-appearance: none; /* Убираем стандартный стиль браузера для WebKit */
+  -moz-appearance: none; /* Убираем стандартный стиль браузера для Firefox */
+}
+
+select:hover {
+  background-color: #333333;
+}
+
+select:focus {
+  outline: none;
+  box-shadow: 0 0 5px 2px rgba(255, 255, 255, 0.5);
+}
+
+select option {
+  background-color: #1f1f1f;
+  color: #ffffff;
+}
+
+/* Добавляем стрелку для селектора */
+select::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  right: 10px;
+  transform: translateY(-50%);
+  pointer-events: none;
+  color: #ffffff;
+}
