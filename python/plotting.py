@@ -2,7 +2,9 @@ import numpy as np
 import matplotlib.pyplot as plt
 import mpld3
 from data_processing import newton_poly, get_predicted_points
+import warnings
 
+warnings.filterwarnings("ignore", category=UserWarning, module='mpld3')
 # Устанавливаем режим без графического интерфейса
 plt.switch_backend('Agg')
 

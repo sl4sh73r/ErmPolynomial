@@ -32,12 +32,16 @@
       {
         "from": ".venv/Lib/site-packages",
         "to": "python/Lib/site-packages",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       },
       {
         "from": ".venv/Lib",
         "to": "python/Lib",
-        "filter": ["**/*"]
+        "filter": [
+          "**/*"
+        ]
       }
     ]
   },
@@ -46,6 +50,6 @@
   },
   "devDependencies": {
     "electron": "^32.1.2",
-    "electron-builder": "^23.6.0"
+    "electron-builder": "^25.1.8"
   }
 }
