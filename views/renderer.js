@@ -219,31 +219,7 @@ document.getElementById('showGraphButton').addEventListener('click', async () =>
       return;
     }
 
-    let result;
-    switch (method) {
-      case 'linear_regression':
-        result = await window.electronAPI.linearRegression();
-        break;
-      case 'linear_smoothing':
-        // Добавьте вызов для линейного сглаживания
-        result = await window.electronAPI.linearSmoothing();
-        break;
-      case 'moving_average':
-        result = await window.electronAPI.movingAverage();
-        break;
-      case 'least_squares':
-        result = await window.electronAPI.leastSquares();
-        break;
-      case 'monte_carlo_plot':
-        result = await window.electronAPI.monteCarloPlot();
-        break;
-      case 'multivariable_function':
-        result = await window.electronAPI.multivariableFunction();
-        break;
-      default:
-        console.error('Unknown method:', method);
-        return;
-    }
+    const result = await window.electronAPI.getPlot(method);
     console.log('Plot data received'); // Отладочное сообщение
 
     // Удаляем старый график, если он существует

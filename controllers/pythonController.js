@@ -59,6 +59,7 @@ ipcMain.handle('get-equations', async () => {
   }
 });
 
+
 ipcMain.handle('get-plot', async (event, method) => {
   try {
     console.log(`Received method: ${method}`); // Отладочное сообщение

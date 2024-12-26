@@ -4,7 +4,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   loadFile: (fileContent) => ipcRenderer.invoke('load-file', fileContent),
   getPolynomial: (method) => ipcRenderer.invoke('get-polynomial', method),
   getEquations: () => ipcRenderer.invoke('get-equations'),
-  getPlot: () => ipcRenderer.invoke('get-plot'),
+  getPlot: (method) => ipcRenderer.invoke('get-plot', method),
   getPredictedPoints: () => ipcRenderer.invoke('get-predicted-points'),
   getMonteCarlo: () => ipcRenderer.invoke('get-monte-carlo'),
   isWindowMaximized: () => ipcRenderer.invoke('is-window-maximized'),
