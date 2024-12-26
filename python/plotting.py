@@ -51,7 +51,7 @@ def plot_newton_polynomial(ax, x_values, y_values, coefficients):
     y_poly = [newton_poly(coefficients, x_values, x) for x in x_poly]
     x_pred_within, y_pred_within, x_pred_extra, y_pred_extra = get_predicted_points(x_values, coefficients)
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_poly, y_poly, 'r-', label='Newton Polynomial')
     ax.scatter(x_pred_within, y_pred_within, c='g', label='Predicted points within range')
     ax.scatter(x_pred_extra, y_pred_extra, c='m', label='Predicted points extra range')
@@ -67,7 +67,7 @@ def plot_linear_regression(ax, x_values, y_values):
     slope, intercept, r_value, p_value, std_err = stats.linregress(x_values, y_values)
     linear_fit = slope * x_values + intercept
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values, linear_fit, 'r-', label=f'Linear Regression: y = {slope:.2f}x + {intercept:.2f}')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -80,7 +80,7 @@ def plot_linear_smoothing(ax, x_values, y_values):
     slope, intercept, r_value, p_value, std_err = stats.linregress(x_values, y_values)
     linear_fit = slope * x_values + intercept
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values, linear_fit, 'r-', label=f'Linear Smoothing: y = {slope:.2f}x + {intercept:.2f}')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -91,7 +91,7 @@ def plot_linear_smoothing(ax, x_values, y_values):
 def plot_moving_average(ax, x_values, y_values, window_size=3):
     moving_average = np.convolve(y_values, np.ones(window_size)/window_size, mode='valid')
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values[window_size-1:], moving_average, 'r-', label=f'Moving Average (window={window_size})')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -103,7 +103,7 @@ def plot_least_squares(ax, x_values, y_values):
     coeffs = np.polyfit(x_values, y_values, 2)
     poly_fit = np.polyval(coeffs, x_values)
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values, poly_fit, 'r-', label='Least Squares (2nd degree polynomial)')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -116,7 +116,7 @@ def plot_monte_carlo(ax, x_values, y_values, num_samples=1000):
     simulations = np.random.normal(np.mean(y_values), np.std(y_values), (num_samples, len(x_values)))
     simulated_means = np.mean(simulations, axis=0)
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values, simulated_means, 'r-', label='Monte Carlo Simulation')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
@@ -128,7 +128,7 @@ def plot_multivariable_function(ax, x_values, y_values):
     coeffs = np.polyfit(x_values, y_values, 2)
     poly_fit = np.polyval(coeffs, x_values)
     
-    ax.plot(x_values, y_values, 'bo', label='Data points')
+    ax.plot(x_values, y_values, 'bo-', label='Data points')
     ax.plot(x_values, poly_fit, 'r-', label='Multivariable Function (2nd degree polynomial)')
     ax.set_xlabel('x')
     ax.set_ylabel('y')
